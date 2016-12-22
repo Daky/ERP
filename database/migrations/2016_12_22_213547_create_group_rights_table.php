@@ -17,7 +17,7 @@ class CreateGroupRightsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('group_id');
             $table->unsignedInteger('function_id');
-            $table->json('access_right');
+            $table->mediumText('access_right');
         });
         Schema::table('group_rights', function (Blueprint $table) {
             $table->foreign('group_id')->references('id')->on('user_groups');

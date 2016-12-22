@@ -17,7 +17,7 @@ class CreateRightsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('function_id');
-            $table->json('access_right');
+            $table->mediumText('access_right');
         });
         Schema::table('rights', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');

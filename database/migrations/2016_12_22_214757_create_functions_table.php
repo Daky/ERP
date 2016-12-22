@@ -16,7 +16,7 @@ class CreateFunctionsTable extends Migration
         Schema::create('functions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->json('access_right');
+            $table->mediumText('access_right');
         });
         Schema::table('rights', function (Blueprint $table) {
             $table->foreign('function_id')->references('id')->on('functions');
