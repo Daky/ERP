@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="stylesheet" href="/AdminLTE-2.3.7/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="/AdminLTE-2.3.7/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
     <link rel="stylesheet" href="/AdminLTE-2.3.7/dist/css/AdminLTE.min.css">
@@ -248,15 +248,15 @@
 
                                     <p>
                                         {{ Auth::user()->name }} - Web Developer
-                                        <small>Member since Nov. 2012</small>
+                                        <small>{{ Auth::user()->created_at->format('Y年m月d日') }}到職</small>
                                     </p>
                                 </li>                                
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="#" class="btn btn-default btn-flat">個人資料</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">登出</a>
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
@@ -278,12 +278,12 @@
                     </div>
                     <div class="pull-left info">
                         <p>{{ Auth::user()->name }}</p>
-                        <p class="text-muted">1030901</p>
+                        <p class="text-muted">{{ Auth::user()->account }}</p>
                     </div>
                 </div>
                 <form action="#" method="get" class="sidebar-form">
                     <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search...">
+                        <input type="text" name="q" class="form-control" placeholder="搜尋...">
                         <span class="input-group-btn">
                             <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                             </button>
@@ -291,7 +291,20 @@
                     </div>
                 </form>
                 <ul class="sidebar-menu">
-                    <li class="header">MAIN NAVIGATION</li>
+                    <li class="header">主選單</li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-wrench" aria-hidden="true"></i> <span>管理</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ url('/manage/accouts') }}"><i class="fa fa-circle-o"></i> 帳號管理</a></li>
+                            <li><a href="{{ url('/manage/roles') }}"><i class="fa fa-circle-o"></i> 職務管理</a></li>
+                            <li><a href="{{ url('/manage/rights') }}"><i class="fa fa-circle-o"></i> 權限管理</a></li>
+                        </ul>
+                    </li>
                     {{-- <li class="active treeview">
                         <a href="#">
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
