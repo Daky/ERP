@@ -2,7 +2,7 @@
 
 namespace ERP\Http\Controllers;
 
-use Illuminate\Http\Request;
+use ERP\BreadCrumb;
 
 class HomeController extends Controller
 {
@@ -23,6 +23,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        $homeBreadCrumb        = new BreadCrumb();
+        $homeBreadCrumb->href  = "";
+        $homeBreadCrumb->title = "Home";
+        $homeBreadCrumb->fa    = "fa-dashboard";
+
+        $dashboardBreadCrumb        = new BreadCrumb();
+        $dashboardBreadCrumb->title = "Dashboard";
+
+        $breadcrumbs = [$homeBreadCrumb, $dashboardBreadCrumb];
+
+        return view('home', ['breadcrumbs' => $breadcrumbs]);
     }
 }

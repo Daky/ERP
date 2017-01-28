@@ -4,7 +4,3 @@
     @include('title')
     @include('breadcrumb')
 @endsection
-
-@section('content')
-    <p>You're logged in!</p>
-@endsection
