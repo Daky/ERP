@@ -2,10 +2,10 @@
 
 namespace ERP\Http\Controllers\Auth;
 
-use ERP\User;
 use ERP\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+use ERP\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -18,7 +18,7 @@ class RegisterController extends Controller
     | validation and creation. By default this controller uses a trait to
     | provide this functionality without requiring any additional code.
     |
-    */
+     */
 
     use RegistersUsers;
 
@@ -48,9 +48,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'account' => 'required|max:20|unique:users',
-            'email' => 'required|email',
+            'name'     => 'required|max:255',
+            'account'  => 'required|max:20|unique:users',
+            'email'    => 'required|email',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -64,9 +64,9 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'account' => $data['account'],
-            'email' => $data['email'],
+            'name'     => $data['name'],
+            'account'  => $data['account'],
+            'email'    => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
     }

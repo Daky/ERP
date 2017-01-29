@@ -10,7 +10,7 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <button type="button" class="btn btn-primary">新增</button>
+                <a href="{{ url('manage/users/create') }}" class="btn btn-primary">新增帳號</a>
             </div>
             <div class="box-body">
                 <div class="table-responsive">
@@ -20,7 +20,7 @@
                                 <th>員工編號</th>
                                 <th>權限</th>
                                 <th>姓名</th>
-                                <th>電子信箱</th>
+                                <th>電子信箱位址</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,6 +38,11 @@
                                 <td>{{ $user->email }}</td>
                             </tr>
                             @endforeach
+                            @if (count($users) == 0)
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">尚無帳號</td>
+                            </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>

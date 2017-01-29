@@ -239,13 +239,12 @@
                     @else
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="/AdminLTE-2.3.7/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                <img src="{{ Auth::user()->avatar ? url(Auth::user()->avatar) : Config::get('const.default_avatar') }}" class="user-image" alt="User Image">
                                 <span class="hidden-xs">{{ Auth::user()->name }}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="user-header">
-                                    <img src="/AdminLTE-2.3.7/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                                    <img src="{{ Auth::user()->avatar ? url(Auth::user()->avatar) : Config::get('const.default_avatar') }}" class="img-circle" alt="User Image">
                                     <p>
                                         {{ Auth::user()->name }}
                                         <small>{{ Auth::user()->created_at->format('Y年m月d日') }}到職</small>
@@ -274,7 +273,7 @@
             <section class="sidebar">
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="/AdminLTE-2.3.7/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        <img src="{{ Auth::user()->avatar ? url(Auth::user()->avatar) : Config::get('const.default_avatar') }}" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p>{{ Auth::user()->name }}</p>
@@ -318,6 +317,7 @@
     <script src="/AdminLTE-2.3.7/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
     <script src="/AdminLTE-2.3.7/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="/AdminLTE-2.3.7/plugins/chartjs/Chart.min.js"></script>
+    @yield('js')
 
 </body>
 </html>

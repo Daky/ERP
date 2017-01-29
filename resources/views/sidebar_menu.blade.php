@@ -9,8 +9,8 @@
         </a>
         <ul class="treeview-menu">
             <li class="{{ preg_match('/^manage\.users/', Request::route()->getName()) ? 'active' : '' }}"><a href="{{ url('/manage/users') }}"><i class="fa fa-circle-o"></i> 帳號管理</a></li>
-            <li class="{{ preg_match('/^manage\.roles/', Request::route()->getName()) ? 'active' : '' }}"><a href="{{ url('/manage/roles') }}"><i class="fa fa-circle-o"></i> 職務管理</a></li>
-            <li class="{{ preg_match('/^manage\.rights/', Request::route()->getName()) ? 'active' : '' }}"><a href="{{ url('/manage/rights') }}"><i class="fa fa-circle-o"></i> 權限管理</a></li>
+            {{-- <li class="{{ preg_match('/^manage\.roles/', Request::route()->getName()) ? 'active' : '' }}"><a href="{{ url('/manage/roles') }}"><i class="fa fa-circle-o"></i> 職務管理</a></li> --}}
+            {{-- <li class="{{ preg_match('/^manage\.permissions/', Request::route()->getName()) ? 'active' : '' }}"><a href="{{ url('/manage/permissions') }}"><i class="fa fa-circle-o"></i> 權限管理</a></li> --}}
         </ul>
     </li>
     {{-- <li class="active treeview">

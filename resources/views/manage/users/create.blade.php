@@ -9,9 +9,8 @@
 @if($errors->any())
 <div class="alert alert-danger">{{ $errors->first() }}</div>
 @endif
-<form class="form-horizontal" action="{{ url('manage/users/update') }}" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" action="{{ url('manage/users/store') }}" method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
-    <input type="hidden" name="id" value="{{ $user->id }}">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -19,29 +18,23 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <div class="col-sm-12">
-                                    <img src="{{ $user->avatar ? url($user->avatar) : Config::get('const.default_avatar') }}" class="img-circle img-responsive center-block" alt="User Image">
+                                <div class="col-md-10 col-md-offset-2">
+                                    <img src="{{ Config::get('const.default_avatar') }}" class="img-responsive img-circle" alt="User Image" style="margin: 0 auto;">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-10 col-sm-offset-2">
+                                <div class="col-md-10 col-md-offset-2">
                                     <label for="avatar">大頭照</label>
                                     <input type="file" class="form-control" id="avatar" name="avatar">
-                                    <div class="checkbox">
-                                        <label for="remove_avatar">
-                                            <input type="checkbox" id="remove_avatar" name="remove_avatar" value="1">
-                                            移除大頭照
-                                        </label>
-                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-10 col-sm-offset-2">
+                                <div class="col-md-10 col-md-offset-2">
                                     <label>職務</label>
                                     @foreach ($roles as $role)
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="roles" value="{{ $role->id }}" {{ $role->checked ? 'checked' : '' }} required>
+                                            <input type="radio" name="roles" value="{{ $role->id }}" required>
                                             {{ $role->role_name }}
                                         </label>
                                     </div>
@@ -54,19 +47,19 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="account">員工編號</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="請輸入員工編號" name="account" id="account" value="{{ $user->account }}" required>
+                                    <input type="text" class="form-control" placeholder="請輸入員工編號" name="account" id="account" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="name">姓名</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="請輸入姓名" name="name" id="name" value="{{ $user->name }}" required>
+                                    <input type="text" class="form-control" placeholder="請輸入姓名" name="name" id="name" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="email">電子信箱位址</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="請輸入電子信箱位址" name="email" id="email" value="{{ $user->email }}" required>
+                                    <input type="text" class="form-control" placeholder="請輸入電子信箱位址" name="email" id="email" required>
                                 </div>
                             </div>
                             <div class="form-group">
