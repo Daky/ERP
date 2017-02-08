@@ -16,11 +16,11 @@
                 <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="請輸入電子信箱位址" required>
+                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="請輸入電子信箱" required>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input id="account" type="text" class="form-control" name="account" value="{{ old('account') }}" placeholder="請輸入員工編號" required>
+                <input id="account" type="text" class="form-control" name="account" value="{{ old('account') }}" placeholder="請輸入帳號" required>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">

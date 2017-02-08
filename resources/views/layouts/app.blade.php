@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/AdminLTE-2.3.7/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
     <link rel="stylesheet" href="/AdminLTE-2.3.7/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="/AdminLTE-2.3.7/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/css/app.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -251,9 +252,9 @@
                                     </p>
                                 </li>                                
                                 <li class="user-footer">
-                                    <div class="pull-left">
+                                    {{-- <div class="pull-left">
                                         <a href="#" class="btn btn-default btn-flat">個人資料</a>
-                                    </div>
+                                    </div> --}}
                                     <div class="pull-right">
                                         <a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">登出</a>
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
@@ -317,6 +318,7 @@
     <script src="/AdminLTE-2.3.7/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
     <script src="/AdminLTE-2.3.7/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="/AdminLTE-2.3.7/plugins/chartjs/Chart.min.js"></script>
+    <script src="/js/app.js"></script>
     @yield('js')
 
 </body>

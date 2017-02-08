@@ -38,3 +38,11 @@ Route::get('manage/users/show/{id}', 'Manage\UserController@show')->name('manage
 Route::get('manage/users/edit/{id}', 'Manage\UserController@edit')->name('manage.users.edit');
 Route::post('manage/users/update', 'Manage\UserController@update')->name('manage.users.update');
 Route::get('manage/users/disable/{id}', 'Manage\UserController@disable')->name('manage.users.disable');
+
+Route::get('manage/roles', 'Manage\RoleController@index')->name('manage.roles.list');
+Route::get('manage/roles/create', 'Manage\RoleController@create')->name('manage.roles.create');
+Route::post('manage/roles/store', 'Manage\RoleController@store')->name('manage.roles.store');
+Route::get('manage/roles/show/{id}', 'Manage\RoleController@show')->name('manage.roles.show');
+Route::get('manage/roles/edit/{id}', 'Manage\RoleController@edit')->name('manage.roles.edit');
+Route::post('manage/roles/update', 'Manage\RoleController@update')->name('manage.roles.update');
+Route::get('manage/roles/destroy/{id}', 'Manage\RoleController@destroy')->name('manage.roles.destroy');

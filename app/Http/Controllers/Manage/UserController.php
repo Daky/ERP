@@ -7,9 +7,10 @@ use ERP\Http\Controllers\Controller;
 use ERP\RoleUser;
 use ERP\User;
 use ERP\UserDisabled;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -37,7 +38,7 @@ class UserController extends Controller
         // DB::enableQueryLog();
 
         $users = DB::table('users')
-            ->select(DB::raw('users.*, IF (roles.display_name IS NOT NULL, roles.display_name, roles.name) AS role_name'))
+            ->select(DB::raw('users.*, roles.id AS role_id, IF (roles.display_name IS NOT NULL, roles.display_name, roles.name) AS role_name'))
             ->where('users.id', '!=', 1)
             ->leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
             ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
@@ -168,19 +169,22 @@ class UserController extends Controller
     protected function update(Request $request)
     {
 
-        $data = $request->all();
-        $id   = $data['id'] or '';
+        $data       = $request->all();
+        $mId        = $data['id'] or '';
+        $mPassword  = $data['password'] or '';
+        $mConfirmed = $data['password_confirmation'] or '';
 
         $validator = Validator::make($data, [
-            'id'      => 'required|integer',
-            'name'    => 'required|max:255',
-            'account' => 'required|max:20|unique:users,account,' . $id,
-            'email'   => 'required|email',
-            'avatar'  => config('const.avatar_mime_limit') . '|max:' . config('const.avatar_max_size'),
+            'id'       => 'required|integer',
+            'name'     => 'required|max:255',
+            'account'  => 'required|max:20|unique:users,account,' . $mId,
+            'email'    => 'required|email',
+            'avatar'   => config('const.avatar_mime_limit') . '|max:' . config('const.avatar_max_size'),
+            'password' => ((!empty($mPassword) || !empty($mConfirmed)) ? 'required|' : '') . 'min:6|confirmed',
         ]);
 
         if ($validator->fails()) {
-            return redirect('manage/users/edit/' . $id)
+            return redirect('manage/users/edit/' . $mId)
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -194,26 +198,33 @@ class UserController extends Controller
             }
         }
 
-        $user          = User::find($id);
+        $user          = User::find($mId);
         $user->account = $data['account'];
         $user->name    = $data['name'];
         $user->email   = $data['email'];
+        $remove_avatar = isset($data['remove_avatar']) ? $data['remove_avatar'] : '0';
         if (!is_null($mAvatar)) {
             $user->avatar = $mAvatar;
-        } elseif ($data['remove_avatar'] == '1') {
+        } elseif ($remove_avatar == '1') {
             $user->avatar = null;
+        }
+        if (!empty($mPassword)) {
+            $user->password = bcrypt($mPassword);
         }
         $user->save();
 
-        $roleUser = RoleUser::where('user_id', '=', $id);
+        $roleUser = RoleUser::where('user_id', '=', $mId);
         $roleUser->delete();
 
         $roleUser          = new RoleUser;
         $roleUser->role_id = $data['roles'];
-        $roleUser->user_id = $id;
+        $roleUser->user_id = $mId;
         $roleUser->save();
 
-        return redirect()->route('manage.users.show', ['id' => $id]);
+        if ($mId == Auth::user()->id && !empty($mPassword)) {
+            Auth::logout();
+        }
+        return redirect()->route('manage.users.show', ['id' => $mId]);
     }
 
     /**
@@ -225,7 +236,7 @@ class UserController extends Controller
     protected function show($id)
     {
         $user = DB::table('users')
-            ->select(DB::raw('users.*, IF (roles.display_name IS NOT NULL, roles.display_name, roles.name) AS role_name'))
+            ->select(DB::raw('users.*, roles.id AS role_id, IF (roles.display_name IS NOT NULL, roles.display_name, roles.name) AS role_name'))
             ->leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
             ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
             ->where('users.id', '=', $id)
@@ -242,7 +253,7 @@ class UserController extends Controller
     protected function disable($id)
     {
         $user = DB::table('users')->where('users.id', '=', $id);
-        $data = (array)$user->first();
+        $data = (array) $user->first();
         UserDisabled::insert($data);
         $user->delete();
         return redirect()->route('manage.users.list');

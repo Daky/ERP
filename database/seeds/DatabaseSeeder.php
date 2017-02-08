@@ -15,9 +15,10 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
 
         DB::table('roles')->insert([
-            'name'       => '系統管理者',
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'name'        => '系統管理者',
+            'description' => '此職務不可修改、刪除！',
+            'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at'  => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         DB::table('roles')->insert([
             'name'       => '資訊工程師',
