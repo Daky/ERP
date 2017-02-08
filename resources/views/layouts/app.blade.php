@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/AdminLTE-2.3.7/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
     <link rel="stylesheet" href="/AdminLTE-2.3.7/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="/AdminLTE-2.3.7/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/css/app.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -317,6 +318,7 @@
     <script src="/AdminLTE-2.3.7/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
     <script src="/AdminLTE-2.3.7/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="/AdminLTE-2.3.7/plugins/chartjs/Chart.min.js"></script>
+    <script src="/js/app.js"></script>
     @yield('js')
 
 </body>

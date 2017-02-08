@@ -12,7 +12,7 @@
         <form role="form" method="POST" action="{{ url('/login') }}">
             {{ csrf_field() }}
             <div class="form-group has-feedback{{ $errors->has('account') ? ' has-error' : '' }}">
-                <input id="account" type="text" class="form-control" name="account" value="{{ old('account') }}" placeholder="請輸入員工編號" required autofocus>
+                <input id="account" type="text" class="form-control" name="account" value="{{ old('account') }}" placeholder="請輸入帳號" required autofocus>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 @if ($errors->has('account'))
                     <span class="help-block">

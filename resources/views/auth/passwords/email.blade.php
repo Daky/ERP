@@ -17,7 +17,7 @@
             </div>
             @endif
             <div class="form-group has-feedback">
-                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="請輸入電子信箱位址" required autofocus>
+                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="請輸入電子信箱" required autofocus>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <button type="submit" class="btn btn-primary btn-block btn-flat">寄送</button>

@@ -26,12 +26,17 @@
                     </div>
                     <div class="media-body">
                         <h4>{{ $user->name }}</h4>
-                        {{ $user->role_name or '&lt;無權限&gt;' }}
+                        @if ($user->role_name)
+                        <a href="{{ url('manage/roles/show/' . $user->role_id) }}">{{ $user->role_name }}</a>
+                        @else
+                        &lt;無權限&gt;
+                        @endif
                     </div>
                 </div>
             </div>
             <div class="box-body">
-                <div>
+                &nbsp;
+                {{-- <div>
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#user_tab_1" aria-controls="user_tab_1" role="tab" data-toggle="tab">預留選單一</a></li>
                         <li role="presentation"><a href="#user_tab_2" aria-controls="user_tab_2" role="tab" data-toggle="tab">預留選單二</a></li>
@@ -52,7 +57,7 @@
                             &nbsp;
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             {{-- <div class="box-footer">
             </div> --}}

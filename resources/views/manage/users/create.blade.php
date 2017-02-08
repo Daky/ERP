@@ -45,9 +45,9 @@
                         <div class="col-md-8">
                             <br>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="account">員工編號</label>
+                                <label class="col-sm-2 control-label" for="account">帳號</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="請輸入員工編號" name="account" id="account" required>
+                                    <input type="text" class="form-control" placeholder="請輸入帳號" name="account" id="account" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -57,9 +57,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="email">電子信箱位址</label>
+                                <label class="col-sm-2 control-label" for="email">電子信箱</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder="請輸入電子信箱位址" name="email" id="email" required>
+                                    <input type="text" class="form-control" placeholder="請輸入電子信箱" name="email" id="email" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密碼</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control">123456</p>
                                 </div>
                             </div>
                             <div class="form-group">
