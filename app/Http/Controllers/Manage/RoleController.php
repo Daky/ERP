@@ -3,12 +3,12 @@
 namespace ERP\Http\Controllers\Manage;
 
 use ERP\BreadCrumb;
-use ERP\Role;
 use ERP\Http\Controllers\Controller;
+use ERP\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class RoleController extends Controller
 {
@@ -21,7 +21,11 @@ class RoleController extends Controller
         // DB::enableQueryLog();
         $roles = DB::table('roles')
             ->select(DB::raw('roles.*, count(role_user.role_id) as members'))
-            ->leftJoin('role_user', 'roles.id', '=', 'role_user.role_id')
+            ->leftJoin('role_user', function ($join) {
+                $join
+                    ->on('roles.id', '=', 'role_user.role_id')
+                    ->where('role_user.user_id', '!=', '1');
+            })
             ->groupBy('roles.id')
             ->groupBy('roles.name')
             ->groupBy('roles.display_name')
@@ -72,6 +76,11 @@ class RoleController extends Controller
     }
     protected function edit($id)
     {
+        // 系統管理者不可編輯
+        if ($id == '1') {
+            return redirect('manage/roles/show/' . $id);
+        }
+
         $role = DB::table('roles')
             ->find($id);
 
@@ -84,8 +93,8 @@ class RoleController extends Controller
     }
     protected function update(Request $request)
     {
-        $data       = $request->all();
-        $mId        = $data['id'] or '';
+        $data = $request->all();
+        $mId  = $data['id'] or '';
 
         $validator = Validator::make($data, [
             'role_name'    => 'required|max:255',
@@ -99,10 +108,10 @@ class RoleController extends Controller
                 ->withInput();
         }
 
-        $role = Role::find($mId);
-        $role->name = $data['role_name'];
+        $role               = Role::find($mId);
+        $role->name         = $data['role_name'];
         $role->display_name = $data['display_name'] ?: null;
-        $role->description = $data['description'] ?: null;
+        $role->description  = $data['description'] ?: null;
         $role->save();
 
         return redirect()->route('manage.roles.show', ['id' => $mId]);
@@ -117,7 +126,8 @@ class RoleController extends Controller
                 $query
                     ->select('user_id')
                     ->from('role_user')
-                    ->where('role_id', '=', $id);
+                    ->where('role_id', '=', $id)
+                    ->where('user_id', '!=', '1');
             })
             ->get();
         // dd(DB::getQueryLog());
