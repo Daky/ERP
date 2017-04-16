@@ -252,9 +252,9 @@
                                     </p>
                                 </li>                                
                                 <li class="user-footer">
-                                    {{-- <div class="pull-left">
+                                    <div class="pull-left">
                                         <a href="#" class="btn btn-default btn-flat">個人資料</a>
-                                    </div> --}}
+                                    </div>
                                     <div class="pull-right">
                                         <a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">登出</a>
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">

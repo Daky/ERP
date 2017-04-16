@@ -10,7 +10,6 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                @if ($role->id != '1')
                 <div class="btn-group pull-right">
                     <a href="{{ url('manage/roles/edit/' . $role->id) }}" class="btn btn-default">編輯</a>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -21,7 +20,6 @@
                         <li><a href="{{ url('manage/roles/destroy/' . $role->id) }}" class="destroy-role">刪除職務</a></li>
                     </ul>
                 </div>
-                @endif
                 @if ($role->display_name)
                 <h4>{{ $role->display_name }} <small>{{ $role->name }}</small></h4>
                 @else
