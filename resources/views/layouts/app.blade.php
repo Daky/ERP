@@ -233,22 +233,22 @@
                                     <a href="#">View all tasks</a>
                                 </li>
                             </ul>
-                        </li> --}}
-                    @if (Auth::guest())
+                        </li> 
+                    
                         <li><a href="{{ url('/login') }}">Login</a></li>
                         <li><a href="{{ url('/register') }}">Register</a></li>
-                    @else
+                        --}}
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="{{ Auth::user()->avatar ? url(Auth::user()->avatar) : Config::get('const.default_avatar') }}" class="user-image" alt="User Image">
-                                <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                                <img src="{{ session('user.avatar') ? url(session('user.avatar')) : Config::get('const.default_avatar') }}" class="user-image" alt="User Image">
+                                <span class="hidden-xs">{{ session('user.name') }}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="user-header">
-                                    <img src="{{ Auth::user()->avatar ? url(Auth::user()->avatar) : Config::get('const.default_avatar') }}" class="img-circle" alt="User Image">
+                                    <img src="{{ session('user.avatar') ? url(session('user.avatar')) : Config::get('const.default_avatar') }}" class="img-circle" alt="User Image">
                                     <p>
-                                        {{ Auth::user()->name }}
-                                        <small>{{ Auth::user()->created_at->format('Y年m月d日') }}到職</small>
+                                        {{ session('user.name') }}
+                                        <small>{{ session('user.created_at')->format('Y年m月d日') }}到職</small>
                                     </p>
                                 </li>                                
                                 <li class="user-footer">
@@ -264,7 +264,6 @@
                                 </li>
                             </ul>
                         </li>
-                    @endif
                     </ul>
                 </div>
 
@@ -274,11 +273,11 @@
             <section class="sidebar">
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="{{ Auth::user()->avatar ? url(Auth::user()->avatar) : Config::get('const.default_avatar') }}" class="img-circle" alt="User Image">
+                        <img src="{{ session('user.avatar') ? url(session('user.avatar')) : Config::get('const.default_avatar') }}" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>{{ Auth::user()->name }}</p>
-                        <p class="text-muted">{{ Auth::user()->account }}</p>
+                        <p>{{ session('user.name') }}</p>
+                        <p class="text-muted">{{ session('user.account') }}</p>
                     </div>
                 </div>
                 <form action="#" method="get" class="sidebar-form">

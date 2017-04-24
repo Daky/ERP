@@ -31,7 +31,7 @@ class Kernel extends HttpKernel
             \ERP\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-
+        'auth' => [\ERP\Http\Middleware\ERPAuthMiddleware::class],
         'api' => [
             'throttle:60,1',
             'bindings',

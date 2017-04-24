@@ -11,15 +11,21 @@
 |
  */
 
-// Route::get('/', 'HomeController@index');
-Route::get('/', function() {
-    return redirect()->route('manage.users.list');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/', function() {
+    	return redirect()->route('manage.users.list');
+    });
 });
 
+// Route::get('/', 'HomeController@index');
+// Route::get('/', function() {
+//     return redirect()->route('manage.users.list');
+// });
+
 // Authentication Routes...
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('login', 'Auth\ERPLoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\ERPLoginController@login');
+Route::get('logout', 'Auth\ERPLoginController@logout')->name('logout');
 
 // Registration Routes...
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');

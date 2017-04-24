@@ -1,6 +1,6 @@
 <?php
 
-namespace ERP;
+namespace ERP\Model;
 
 class Breadcrumb
 {

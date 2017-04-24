@@ -1,16 +1,11 @@
 <?php
 
-namespace ERP;
+namespace ERP\Model;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class UserDisabled extends Model
 {
-    use Notifiable;
-    use EntrustUserTrait;
-
     /**
      * The attributes that are mass assignable.
      *

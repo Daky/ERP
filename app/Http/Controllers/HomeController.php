@@ -2,7 +2,7 @@
 
 namespace ERP\Http\Controllers;
 
-use ERP\BreadCrumb;
+use ERP\Model\BreadCrumb;
 
 class HomeController extends Controller
 {
@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
@@ -23,7 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         $homeBreadCrumb        = new BreadCrumb();
         $homeBreadCrumb->href  = "";
         $homeBreadCrumb->title = "Home";

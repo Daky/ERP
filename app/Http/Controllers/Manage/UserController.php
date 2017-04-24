@@ -2,11 +2,11 @@
 
 namespace ERP\Http\Controllers\Manage;
 
-use ERP\BreadCrumb;
+use ERP\Model\BreadCrumb;
 use ERP\Http\Controllers\Controller;
-use ERP\RoleUser;
-use ERP\User;
-use ERP\UserDisabled;
+use ERP\Model\RoleUser;
+use ERP\Model\User;
+use ERP\Model\UserDisabled;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
@@ -22,11 +22,12 @@ class UserController extends Controller
      * Create a new controller instance.
      *
      * @return void
-     */
+    */ 
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
+    
 
     /**
      * Display a listing of the resource.
@@ -35,17 +36,16 @@ class UserController extends Controller
      */
     protected function index()
     {
-        // DB::enableQueryLog();
+        DB::enableQueryLog();
 
         $users = DB::table('users')
             ->select(DB::raw('users.*, roles.id AS role_id, IF (roles.display_name IS NOT NULL, roles.display_name, roles.name) AS role_name'))
-            ->where('users.id', '!=', 1)
+            ->where('users.id', '!=', '1')
             ->leftJoin('role_user', 'users.id', '=', 'role_user.user_id')
             ->leftJoin('roles', 'role_user.role_id', '=', 'roles.id')
             ->orderBy('users.created_at', 'DESC')
             ->paginate(10);
-
-        // dd(DB::getQueryLog());
+        //dd(DB::getQueryLog());
 
         return View::make('manage.users.list', [
             'users'       => $users,

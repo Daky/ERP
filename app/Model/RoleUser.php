@@ -1,6 +1,6 @@
 <?php
 
-namespace ERP;
+namespace ERP\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
