@@ -10,42 +10,76 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                日期:
-                <input type="date" name="date" id="date">
-                分區:
-                <select name="time_region" id="time_region">
-                    <?php foreach (config('derbou.machine_region') as $key => $value) { ?>
-                    <option value="{{ $key }}">{{ $value }}</option>
-                    <?php } ?>
-                </select>
+                <form id="form">
+                    日期:
+                    <input type="date" name="date" id="date" value="{{ $data['date'] }}">
+                    分區:
+                    <select name="machine_region" id="machine_region">
+                        <?php foreach (config('derbou.machine_region') as $key => $value) { ?>
+                        <option {{ ($data['machine_region']==$key)?'selected':'' }} value="{{ $key }}">{{ $value }}</option>
+                        <?php } ?>
+                    </select>
                 <span class="btn btn-success" id="search">查詢</span>
-                <a href="{{ url('derbou/humanefficiency/create') }}" class="btn btn-primary">新增紀錄</a>
-                <a href="{{ url('derbou/humanefficiency/edit') }}" class="btn btn-primary">修改紀錄</a>
+                <span class="btn btn-primary" id="reload">刷新頁面</span>
+                <span style="float:right" class="btn btn-danger" id="edit">修改紀錄</span>
+                </form>
             </div>
             <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>職務</th>
-                                <th>職務人數</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($datas as $data)
-                            <tr>
-                                <td><a href="{{ url('derbou/humanefficiency/show/' . $role->id) }}">{{ $role->name }}</td>
-                                <td>{{ $role->members }}</td>
-                            </tr>
+                <table class="table table-bordered table-striped">
+                    <tr class="head-color">
+                        <th></th>
+                        <th colspan="8"><span style="color:blue">{{ $data['machine_region'] }}區</span> 作業人員效率表</th>
+                        <th>{{ $data['date'] }}</th>
+                    </tr>
+                    <tr class="head-color">
+                        <th></th>
+                    @foreach(config('derbou.time_region') as $k => $v) 
+                        <th colspan="3">
+                            <span>{{ $data['data'][$k]['name'] }}</span>
+                            <span class="detail-show">{{ isset($data['user'][$data['data'][$k]['user_id']])?$data['user'][$data['data'][$k]['user_id']]->name: '未設定人員' }}</span>
+                            <select class="detail-show detail-edit" data-time_region="{{ $k }}" data-column="user_id" style="display: none">
+                                <option value="">-</option>
+                            @foreach($data['user'] as $kk => $vv) 
+                                <option {{ ($data['data'][$k]['user_id']==$vv->id)? 'selected': '' }} value="{{ $vv->id }}">{{ $vv->name }}</option>
+                                }
                             @endforeach
-                            @if (count($datas) == 0)
-                            <tr>
-                                <td colspan="2" class="text-center text-muted">尚無資料</td>
-                            </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
+                            </select>
+                        </th>
+                    @endforeach
+                    </tr>
+                    <tr class="head-color">
+                        <th>機號</th>
+                        @for ($i = 1; $i <= count(config('derbou.time_region')); $i++)
+                        <th>碼數</th>
+                        <th>狀態</th>
+                        <th>備註</th>
+                        @endfor
+                    </tr>
+                    @foreach(config('derbou.machine_no')[$data['machine_region']] as $k => $v) 
+                    <tr>
+                        <td>{{ $k }}</td>
+                        @foreach(config('derbou.time_region') as $kk => $vv) 
+                        <td>
+                            <span class="detail-show">{{ $data['data'][$kk]['data'][$k]['yard'] }}</span>
+                            <input size="4" class="detail-show detail-edit" data-column="yard" style="display: none"  data-time_region="{{ $kk }}" data-machine_region="{{ $data['machine_region'] }}" value="{{ $data['data'][$kk]['data'][$k]['yard'] }}">
+                        </td>
+                        <td>
+                            <span class="detail-show">{{ $data['data'][$kk]['data'][$k]['kind'] }}</span>
+                            <select class="detail-show detail-edit" data-column="kind" style="display: none"  data-time_region="{{ $kk }}" data-machine_region="{{ $data['machine_region'] }}">
+                                <option value="">-</option>
+                                @foreach(config('derbou.human_efficiency_kind') as $kkk => $vvv) 
+                                <option {{ ($kkk==$data['data'][$kk]['data'][$k]['kind'])? 'selected': '' }} value="{{ $kkk }}">{{ $vvv }}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <span class="detail-show">{{ $data['data'][$kk]['data'][$k]['memo'] }}</span>
+                            <input size="12" class="detail-show detail-edit" data-column="memo" style="display: none"  data-time_region="{{ $kk }}" data-machine_region="{{ $data['machine_region'] }}" value="{{ $data['data'][$kk]['data'][$k]['memo'] }}">
+                        </td>
+                        @endforeach
+                    </tr>
+                    @endforeach
+                </table>
             </div>
             <div class="box-footer">
                 {{-- {{ $datas->links() }}
@@ -63,8 +97,25 @@
 <script type="text/javascript">
     $(function(){
         $('#search').on('click',function(){
+            $('#form').submit();
+        });
+        $('#edit').on('click',function(){
+            $(".detail-show").toggle();
+        });
+        $('#reload').on('click',function(){
             location.reload();
         });
+        $('.detail-edit').on('blur',function(){
+            alert(1);
+
+        });
+        //Ajax
+        function do_post(path,obj,callback){
+            $.post( path, obj).done(function( data ) {
+                var data = $.parseJSON(data);
+                callback(data);
+            });
+        } 
     });
 </script>
 @endsection

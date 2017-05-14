@@ -3,21 +3,32 @@
 namespace ERP\Http\Controllers\Derbou;
 
 use ERP\Model\BreadCrumb;
-use ERP\Model\Role;
+use ERP\Model\User;
 use ERP\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
+use ERP\Model\HumanEfficiency;
 
 class HumanEfficiencyController extends Controller
 {
+	protected $date = '';
+	protected $machine_region = 'A';
+
+	public function __construct()
+    {
+        $this->date = dateadd(config('const.today'),-1);
+    }
    	protected function index(Request $request){
-   		$date = ($request->input('date')==null) ? dateadd(config('const.today'),-1) : $request->input('date');
-   		$time_region = ($request->input('date')==null) ? dateadd(config('const.today'),-1) : $request->input('date');
-   		
-   		$data = array();
+   		$date = ($request->input('date')==null) ? $this->date : $request->input('date');
+   		$machine_region = ($request->input('machine_region')==null) ? $this->machine_region : $request->input('machine_region');
+
+   		$class = new HumanEfficiency();
+	    $data = $class->getDataByDate($date,$machine_region);
+	    $data['user'] = User::all();
+
 		return view('derbou.humanefficiency.list', [
-            'datas'       => $data,
+            'data'       => $data,
             'pageTitle'   => '作業人員效率表',
             'subTitle'    => '清單',
             'breadcrumbs' => $this->getBreadCrumb('index'),
@@ -29,34 +40,12 @@ class HumanEfficiencyController extends Controller
         $homeBreadCrumb->href  = url('/');
         $homeBreadCrumb->title = "首頁";
 
-        $createBreadCrumb        = new BreadCrumb();
-        $createBreadCrumb->title = "新增資料";
-
         $listBreadCrumb        = new BreadCrumb();
         $listBreadCrumb->title = "資料清單";
-
-        $showBreadCrumb        = new BreadCrumb();
-        $showBreadCrumb->title = "資料詳情";
-
-        $editBreadCrumb        = new BreadCrumb();
-        $editBreadCrumb->title = "資料編輯";
 
         switch ($page) {
             case 'index':
                 $breadcrumbs = [$homeBreadCrumb, $listBreadCrumb];
-                break;
-            case 'create':
-                $listBreadCrumb->href = url('/derbou/humanefficiency');
-                $breadcrumbs              = [$homeBreadCrumb, $listBreadCrumb, $createBreadCrumb];
-                break;
-            case 'show':
-                $listBreadCrumb->href = url('/derbou/humanefficiency');
-                $breadcrumbs              = [$homeBreadCrumb, $listBreadCrumb, $showBreadCrumb];
-                break;
-            case 'edit':
-                $listBreadCrumb->href = url('/derbou/humanefficiency');
-                $showBreadCrumb->href = url('/derbou/humanefficiency/show/' . $id);
-                $breadcrumbs              = [$homeBreadCrumb, $listBreadCrumb, $showBreadCrumb, $editBreadCrumb];
                 break;
             default:
                 $breadcrumbs = [];
