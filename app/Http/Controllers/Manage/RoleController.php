@@ -2,8 +2,8 @@
 
 namespace ERP\Http\Controllers\Manage;
 
-use ERP\BreadCrumb;
-use ERP\Role;
+use ERP\Model\BreadCrumb;
+use ERP\Model\Role;
 use ERP\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,10 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class RoleController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     protected function index()
     {
         // DB::enableQueryLog();

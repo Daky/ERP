@@ -85,10 +85,13 @@ class UserController extends Controller
     {
         $data = $request->all();
 
+        
+
         $validator = Validator::make($data, [
             'name'    => 'required|max:255',
             'account' => 'required|max:20|unique:users',
             'email'   => 'required|email',
+            'password'=> 'required',
             'avatar'  => config('const.avatar_mime_limit') . '|max:' . config('const.avatar_max_size'),
         ]);
 
@@ -111,7 +114,7 @@ class UserController extends Controller
             'name'     => $data['name'],
             'account'  => $data['account'],
             'email'    => $data['email'],
-            'password' => bcrypt('123456'),
+            'password' => $data['password'],
             'avatar'   => $mAvatar,
         ])->id;
 
@@ -221,8 +224,8 @@ class UserController extends Controller
         $roleUser->user_id = $mId;
         $roleUser->save();
 
-        if ($mId == Auth::user()->id && !empty($mPassword)) {
-            Auth::logout();
+        if ($mId == session('user.id') && !empty($mPassword)) {
+            return redirect()->route('logout');
         }
         return redirect()->route('manage.users.show', ['id' => $mId]);
     }

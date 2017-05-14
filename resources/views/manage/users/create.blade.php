@@ -63,9 +63,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">密碼</label>
+                                <label class="col-sm-2 control-label" for="password">密碼</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control">123456</p>
+                                    <input type="text" class="form-control" placeholder="請輸入密碼" name="password" id="password" required>
                                 </div>
                             </div>
                             <div class="form-group">

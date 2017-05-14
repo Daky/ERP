@@ -1,6 +1,9 @@
 <?php
-return [
+date_default_timezone_set("Asia/Taipei");
 
+return [
+	'today'=> date("Y-m-d"),
+	'today_m'=> date("Y-m-d H:i:s"),
     /**
      * Avatar
      */

@@ -13,6 +13,15 @@
     <link rel="stylesheet" href="/AdminLTE-2.3.7/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="/AdminLTE-2.3.7/dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="/css/app.css">
+    
+    <!--[if lt IE 9]>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- <![endif]-->
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

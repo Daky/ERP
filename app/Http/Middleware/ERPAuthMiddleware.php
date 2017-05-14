@@ -16,7 +16,8 @@ class ERPAuthMiddleware
     public function handle($request, Closure $next)
     {
         if(!session('user.account')){
-            return response(view('errors.503'));
+            return redirect('/login');
+            //return response(view('errors.503'));
         }
         return $next($request);
     }

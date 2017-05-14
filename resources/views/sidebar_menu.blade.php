@@ -1,5 +1,34 @@
 <ul class="sidebar-menu">
     <li class="header">主選單</li>
+    @php 
+    $menus = ERP\Model\User::getSidebarMenu();
+    foreach ($menus as $key => $obj) {
+        $kind_route_url = $obj["route_url"];
+    @endphp
+    <li class="treeview {{ preg_match('/^'.$kind_route_url.'/', Request::route()->getName()) ? 'active' : '' }}">
+        <a href="#">
+            <i class="fa fa-wrench" aria-hidden="true"></i> <span>{{ $obj["name"] }}</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            @php 
+            foreach ($obj['data'] as $k => $data) {
+                $route_name = $data->route_name;
+                $match = explode(".", $route_name);
+                //dd(($route_name));
+            @endphp
+            <li class="{{ preg_match('/^'.$route_name.'/', Request::route()->getName()) ? 'active' : '' }}"><a href="{{ url('/'.$match[0].'/'.$match[1]) }}"><i class="fa fa-circle-o"></i>{{ $data->name }}</a></li>
+            @php    
+            }
+            @endphp
+        </ul>
+    </li>
+    @php    
+    }
+    @endphp
+    {{--
     <li class="treeview {{ preg_match('/^manage/', Request::route()->getName()) ? 'active' : '' }}">
         <a href="#">
             <i class="fa fa-wrench" aria-hidden="true"></i> <span>管理</span>
@@ -10,10 +39,10 @@
         <ul class="treeview-menu">
             <li class="{{ preg_match('/^manage\.users/', Request::route()->getName()) ? 'active' : '' }}"><a href="{{ url('/manage/users') }}"><i class="fa fa-circle-o"></i> 帳號管理</a></li>
             <li class="{{ preg_match('/^manage\.roles/', Request::route()->getName()) ? 'active' : '' }}"><a href="{{ url('/manage/roles') }}"><i class="fa fa-circle-o"></i> 職務管理</a></li>
-            {{-- <li class="{{ preg_match('/^manage\.permissions/', Request::route()->getName()) ? 'active' : '' }}"><a href="{{ url('/manage/permissions') }}"><i class="fa fa-circle-o"></i> 權限管理</a></li> --}}
+            <li class="{{ preg_match('/^manage\.permissions/', Request::route()->getName()) ? 'active' : '' }}"><a href="{{ url('/manage/permissions') }}"><i class="fa fa-circle-o"></i> 權限管理</a></li>
         </ul>
     </li>
-    {{-- <li class="active treeview">
+    <li class="active treeview">
         <a href="#">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
             <span class="pull-right-container">

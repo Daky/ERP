@@ -18,13 +18,15 @@ class ERPLoginController extends Controller
     	$input = $req->all();
     	$account = isset($input['account'])?$input['account']:'';
     	$password = isset($input['password'])?$input['password']:'';
-    	
-    	$user = User::where(['account'=>$account , 'password'=>sha1($password)])->first();
+
+    	$user = User::where(['account'=>$account , 'password'=>$password])->first();
     	
     	if($user == null){
-    		return view('errors.404');
+    		//return view('errors.404');
+            return redirect()->route('login');
     	}
 
+        session(['user.id'=>$user['id']]);
     	session(['user.account'=>$user['account']]);
     	session(['user.email'=>$user['email']]);
     	session(['user.name'=>$user['name']]);

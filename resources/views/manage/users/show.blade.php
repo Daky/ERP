@@ -17,7 +17,7 @@
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ url('manage/users/disable/' . $user->id) }}" class="disable-account">停用帳號</a></li>
+                        <li><a href="{{ url('manage/users/disable/' . $user->id) }}" class="disable-account">刪除帳號</a></li>
                     </ul>
                 </div>
                 <div class="media">
