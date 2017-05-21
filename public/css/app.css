@@ -4,3 +4,6 @@
 .head-color{
 	background-color: aliceblue !important;
 }
+.box{
+	overflow-x: scroll;
+}

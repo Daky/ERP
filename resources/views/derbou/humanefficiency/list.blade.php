@@ -36,11 +36,12 @@
                     @foreach(config('derbou.time_region') as $k => $v) 
                         <th colspan="3">
                             <span>{{ $data['data'][$k]['name'] }}</span>
-                            <span class="detail-show">{{ isset($data['user'][$data['data'][$k]['user_id']])?$data['user'][$data['data'][$k]['user_id']]->name: '未設定人員' }}</span>
-                            <select class="detail-show detail-edit" data-time_region="{{ $k }}" data-column="user_id" style="display: none">
+                            <span style="color:blue" class="detail-show">{{ isset($data['user'][$data['data'][$k]['user_id']])?$data['user'][$data['data'][$k]['user_id']]['name']: '未設定人員' }}</span>
+                            <select class="detail-show user-edit" data-time_region="{{ $k }}" data-column="user_id" style="display: none">
                                 <option value="">-</option>
                             @foreach($data['user'] as $kk => $vv) 
-                                <option {{ ($data['data'][$k]['user_id']==$vv->id)? 'selected': '' }} value="{{ $vv->id }}">{{ $vv->name }}</option>
+                                <option data-test="{{ $data['data'][$k]['user_id'] }}" data-vv="{{ $vv['id'] }}"
+                                 {{ (intval($data['data'][$k]['user_id'])==intval($vv['id']))? 'selected': '' }} value="{{ $vv['id'] }}">{{ $vv['name'] }}</option>
                                 }
                             @endforeach
                             </select>
@@ -61,11 +62,11 @@
                         @foreach(config('derbou.time_region') as $kk => $vv) 
                         <td>
                             <span class="detail-show">{{ $data['data'][$kk]['data'][$k]['yard'] }}</span>
-                            <input size="4" class="detail-show detail-edit" data-column="yard" style="display: none"  data-time_region="{{ $kk }}" data-machine_region="{{ $data['machine_region'] }}" value="{{ $data['data'][$kk]['data'][$k]['yard'] }}">
+                            <input size="4" class="detail-show detail-edit" data-uid="{{ sha1($data['date'].$kk.$k) }}" data-machine_no="{{ $k }}" data-column="yard" style="display: none"  data-time_region="{{ $kk }}" data-machine_region="{{ $data['machine_region'] }}" value="{{ $data['data'][$kk]['data'][$k]['yard'] }}">
                         </td>
                         <td>
                             <span class="detail-show">{{ $data['data'][$kk]['data'][$k]['kind'] }}</span>
-                            <select class="detail-show detail-edit" data-column="kind" style="display: none"  data-time_region="{{ $kk }}" data-machine_region="{{ $data['machine_region'] }}">
+                            <select class="detail-show detail-edit" data-uid="{{ sha1($data['date'].$kk.$k) }}"  data-column="kind" style="display: none"  data-time_region="{{ $kk }}" data-machine_region="{{ $data['machine_region'] }}">
                                 <option value="">-</option>
                                 @foreach(config('derbou.human_efficiency_kind') as $kkk => $vvv) 
                                 <option {{ ($kkk==$data['data'][$kk]['data'][$k]['kind'])? 'selected': '' }} value="{{ $kkk }}">{{ $vvv }}</option>
@@ -74,7 +75,7 @@
                         </td>
                         <td>
                             <span class="detail-show">{{ $data['data'][$kk]['data'][$k]['memo'] }}</span>
-                            <input size="12" class="detail-show detail-edit" data-column="memo" style="display: none"  data-time_region="{{ $kk }}" data-machine_region="{{ $data['machine_region'] }}" value="{{ $data['data'][$kk]['data'][$k]['memo'] }}">
+                            <input size="12" class="detail-show detail-edit" data-uid="{{ sha1($data['date'].$kk.$k) }}" data-column="memo" style="display: none"  data-time_region="{{ $kk }}" data-machine_region="{{ $data['machine_region'] }}" value="{{ $data['data'][$kk]['data'][$k]['memo'] }}">
                         </td>
                         @endforeach
                     </tr>
@@ -95,27 +96,52 @@
     </div>
 </div>
 <script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     $(function(){
         $('#search').on('click',function(){
             $('#form').submit();
         });
         $('#edit').on('click',function(){
             $(".detail-show").toggle();
+            $('#machine_region').prop('disabled', function(i, v) { return !v; });
+            $('#date').prop('disabled', function(i, v) { return !v; });
         });
         $('#reload').on('click',function(){
             location.reload();
         });
         $('.detail-edit').on('blur',function(){
-            alert(1);
-
-        });
-        //Ajax
-        function do_post(path,obj,callback){
-            $.post( path, obj).done(function( data ) {
-                var data = $.parseJSON(data);
-                callback(data);
+            var uid = $(this).attr('data-uid');
+            var obj = {};
+            obj.action = 'detail';
+            obj.date = $('#date').val(); 
+            obj.machine_region = $('#machine_region').val(); 
+            obj.time_region = $(this).attr('data-time_region');
+            obj.machine_no = $('input[data-column="yard"][data-uid="'+uid+'"]').attr('data-machine_no');
+            obj.yard = $('input[data-column="yard"][data-uid="'+uid+'"]').val();
+            obj.kind = $('select[data-column="kind"][data-uid="'+uid+'"]').val();
+            obj.memo = $('input[data-column="memo"][data-uid="'+uid+'"]').val();
+            obj.user_id = $('select[data-column="user_id"][data-time_region="'+obj.time_region+'"]').val();
+            console.log(obj);
+            do_post('/derbou/humanefficiency/update',obj,function(data){
+                console.log('ajax update detail success');
             });
-        } 
+        });
+        $('.user-edit').on('change',function(){
+            var obj = {};
+            obj.action = 'user';
+            obj.date = $('#date').val();
+            obj.machine_region = $('#machine_region').val();
+            obj.time_region = $(this).attr('data-time_region');
+            obj.user_id = $(this).val();
+            console.log(obj);
+            do_post('/derbou/humanefficiency/update',obj,function(data){
+                console.log('ajax update user success');
+            });  
+        });
     });
 </script>
 @endsection

@@ -4,7 +4,7 @@ namespace ERP\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use ERP\Http\Controllers\Controller;
-use ERP\Model\User;
+use ERP\Model\Manage\User;
 use Session;
 
 class ERPLoginController extends Controller

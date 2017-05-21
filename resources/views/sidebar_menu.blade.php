@@ -1,7 +1,7 @@
 <ul class="sidebar-menu">
     <li class="header">主選單</li>
     @php 
-    $menus = ERP\Model\User::getSidebarMenu();
+    $menus = ERP\Model\Manage\User::getSidebarMenu();
     foreach ($menus as $key => $obj) {
         $kind_route_url = $obj["route_url"];
     @endphp

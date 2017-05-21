@@ -66,3 +66,4 @@ Route::get('manage/permissions/destroy/{id}', 'Manage\PermissionController@destr
 
 //derbou - humanefficiency
 Route::get('derbou/humanefficiency', 'Derbou\HumanEfficiencyController@index')->name('derbou.humanefficiency.list');
+Route::post('derbou/humanefficiency/update', 'Derbou\HumanEfficiencyController@update')->name('derbou.humanefficiency.update');

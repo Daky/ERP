@@ -328,6 +328,5 @@
     <script src="/AdminLTE-2.3.7/plugins/chartjs/Chart.min.js"></script>
     <script src="/js/app.js"></script>
     @yield('js')
-
 </body>
 </html>

@@ -2,9 +2,9 @@
 return [
 	//班別
 	'time_region'=>[
-		'A'=>'早班',
-		'B'=>'中班',
-		'C'=>'夜班',
+		'morning'=>'早班',
+		'evening'=>'中班',
+		'midnight'=>'夜班',
 	],
 	//作業人員效率表-狀態(kind)
 	'human_efficiency_kind' =>[

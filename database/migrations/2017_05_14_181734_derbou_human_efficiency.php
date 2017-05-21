@@ -18,6 +18,7 @@ class DerbouHumanEfficiency extends Migration
             $table->date('data_date');
             $table->string('time_region')->nullable();
             $table->string('machine_no')->nullable();
+            $table->string('machine_region')->nullable();
             $table->string('yard')->nullable();
             $table->string('kind')->nullable();
             $table->string('memo')->nullable();
