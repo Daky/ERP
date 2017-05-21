@@ -1,6 +1,6 @@
 <?php
 
-namespace ERP\Model;
+namespace ERP\Model\Derbou;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
@@ -10,7 +10,7 @@ class HumanEfficiency extends Model
 	protected $table = 'derbou_human_efficiency';
 
     protected $fillable = [
-        'data_date','time_region','machine_no','yard', 'kind', 'memo', 'user_id',
+        'data_date','time_region','machine_no','machine_region','yard', 'kind', 'memo', 'user_id',
     ];
 
     public function getDataByDate($date , $machine_region = 'A'){
@@ -28,21 +28,25 @@ class HumanEfficiency extends Model
     			$res['data'][$k]['data'][$kk]['yard'] = '';
     			$res['data'][$k]['data'][$kk]['kind'] = '';
     			$res['data'][$k]['data'][$kk]['memo'] = '';
-
     		}
     	}
 
     	$result = DB::table('derbou_human_efficiency AS a')
     	->select(DB::raw('a.* , b.name'))
     	->where('a.data_date',$date)
+        ->where('a.machine_region',$machine_region)
     	->leftJoin('users AS b','a.user_id','b.id')
     	->get();
+
     	foreach ($result as $k => $v) {
+            //echo $v->time_region.$v->user_id.'<br>';
     		$res['data'][$v->time_region]['user_id'] = $v->user_id;
     		$res['data'][$v->time_region]['data'][$v->machine_no]['yard'] = $v->yard;
     		$res['data'][$v->time_region]['data'][$v->machine_no]['kind'] = $v->kind;
     		$res['data'][$v->time_region]['data'][$v->machine_no]['memo'] = $v->memo;
     	}
+
+        //dd($res);
 
     	return $res;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace ERP\Model;
+namespace ERP\Model\Manage;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
