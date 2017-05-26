@@ -33,7 +33,7 @@ class ERPLoginController extends Controller
         session(['user.avatar'=>$user['avatar']]);
         session(['user.created_at'=>$user['created_at']]);
 
-    	return redirect()->route('manage.users.list');
+    	return redirect('/');
     }
 
     public function logout(){

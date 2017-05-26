@@ -13,7 +13,8 @@
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', function() {
-    	return redirect()->route('manage.users.list');
+    	//return redirect()->route('manage.users.list');
+    	return view('home');
     });
 });
 

@@ -32,6 +32,7 @@ class EntrustSetupTables extends Migration
         Schema::create('permission_kinds', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
+            $table->string('route_url')->nullable();
             $table->timestamps();
         });
 
